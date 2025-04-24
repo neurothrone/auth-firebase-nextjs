@@ -1,8 +1,11 @@
 import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
+import { FirestoreAdapter } from "@auth/firebase-adapter";
+import { firestore } from "@/lib/firesstore";
+import authConfig from "@/auth.config";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  providers: [
-    GitHub,
-  ]
+  adapter: FirestoreAdapter(firestore),
+  session: { strategy: "jwt" },
+  debug: true,
+  ...authConfig
 });
