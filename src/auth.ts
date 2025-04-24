@@ -6,6 +6,7 @@ import authConfig from "@/auth.config";
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: FirestoreAdapter(firestore),
   session: { strategy: "jwt" },
-  debug: true,
+  // session: { strategy: "database" },
+  // debug: true,
   ...authConfig
 });

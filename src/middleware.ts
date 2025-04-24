@@ -1,26 +1,30 @@
 import NextAuth from "next-auth";
+import { NextResponse } from "next/server";
 import authConfig from "@/auth.config";
 
-export const { auth: middleware } = NextAuth(authConfig);
+const { auth } = NextAuth(authConfig);
 
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
-// import { auth } from "@/auth";
-//
-// const protectedRoutes = ["/profile"];
-//
-// export default async function middleware(request: NextRequest) {
-//   const session = await auth();
-//
-//   const { pathname } = request.nextUrl;
-//
-//   const isProtected = protectedRoutes.some((route) =>
-//     pathname.startsWith(route)
-//   );
-//
-//   if (isProtected && !session) {
-//     return NextResponse.redirect(new URL("/api/auth/signin", request.url));
-//   }
-//
-//   return NextResponse.next();
-// }
+const protectedRoutes = ["/profile"];
+
+export default auth((req) => {
+  const { nextUrl } = req;
+  // All three approaches are equivalent
+  // const isLoggedIn = req.auth !== null && req.auth !== undefined;
+  // const isLoggedIn = Boolean(req.auth);
+  const isLoggedIn = !!req.auth; // !!: double bang operator
+
+  const isProtected = protectedRoutes.some((route) =>
+    nextUrl.pathname.startsWith(route)
+  );
+
+  if (isProtected && !isLoggedIn) {
+    return Response.redirect(new URL("/api/auth/signin", nextUrl));
+  }
+
+  return NextResponse.next();
+});
+
+// Required for Auth.js
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)"]
+}
