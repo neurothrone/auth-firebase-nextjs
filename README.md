@@ -1,6 +1,6 @@
 # Auth Firebase Next.js
 
-## Setup
+## Docs
 
-https://authjs.dev/getting-started/adapters/firebase
-https://authjs.dev/guides/edge-compatibility#middleware
+- https://authjs.dev/getting-started/adapters/firebase
+- https://authjs.dev/guides/edge-compatibility#middleware
