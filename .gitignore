@@ -4,6 +4,9 @@
 .idea
 .vscode
 
+# Sensitive files
+firebase-service-account.json
+
 # dependencies
 /node_modules
 /.pnp
